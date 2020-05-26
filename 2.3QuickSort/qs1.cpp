@@ -1,4 +1,4 @@
-// Many kinds of sort for any object（need to fix a few fuction according to your object）
+// Quick sort for any object（need to fix a few fuction according to your object）
 
 #include<iostream>
 using namespace std;
