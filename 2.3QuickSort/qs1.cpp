@@ -1,72 +1,76 @@
-// 可以套在任何对象上的快速排序（需要自己修改Comparable对象类）
+// Many kinds of sort for any object（need to fix a few fuction according to your object）
 
 #include<iostream>
 using namespace std;
 
-class Comparable
-{
-    int x;
-public:
-    bool operator < (const Comparable &temp);
-    bool operator > (const Comparable &temp);
-    friend ostream & operator<<( ostream & os,const Comparable & c);
-    friend istream & operator>>( istream & is,Comparable & c);
-};
-bool Comparable::operator < (const Comparable &temp)
-{
-    return x < temp.x;
-}
-bool Comparable::operator > (const Comparable &temp)
-{
-    return x > temp.x;
-}
-ostream & operator<<( ostream & os,const Comparable & c)
-{
-    os << c.x;
-    return os;
-}
-istream & operator>>( istream & is,Comparable & c)
-{
-    is >> c.x;  
-    return is;
-}
-
+template <class T>
 class Sort
 {
 public:
-    void swap(Comparable arr[], int a, int b)
+    /*
+    two functions you need to modify according to your object
+    */
+    void swap(T arr[], int a, int b) //define proper swap function for your object
     {
-        Comparable temp = arr[a];
+        T temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
     }
-    int partition(Comparable arr[], int lo, int hi)
+    bool less(T a, T b) //define proper compare function (here means <) for your object
     {
-        Comparable v = arr[lo];
+        return a.x < b.x;
+    }
+    /****************
+        Quick sort 
+    *****************/
+    void quicksort(T arr[], int len)
+    {
+        sort(arr, 0, len - 1);
+    }
+    void sort(T arr[], int lo, int hi)
+    {
+        if(lo >= hi)
+            return ;
+        int j = partition(arr, lo, hi);
+        sort(arr, lo, j - 1);
+        sort(arr, j + 1, hi);
+    }
+    int partition(T arr[], int lo, int hi)
+    {
+        T v = arr[lo];
         int i = lo, j = hi + 1;
         while(true)
         {
-            while(arr[++i] < v)if(i == hi)break;
-            while(arr[--j] > v)if(j == lo)break; // actually "if(j == lo)break" is redundant;
+            while(less(arr[++i], v))if(i == hi)break;
+            while(less(v, arr[--j]))if(j == lo)break; // actually "if(j == lo)break" is redundant;
             if(i >= j)break;
             swap(arr, i, j);
         }
         swap(arr, lo, j);
         return j;
     }
-    void quicksort(Comparable arr[], int lo, int hi)
-    {
-        if(lo >= hi)
-            return ;
-        int j = partition(arr, lo, hi);
-        quicksort(arr, lo, j - 1);
-        quicksort(arr, j + 1, hi);
-    }
-    void sort(Comparable arr[], int len)
-    {
-        quicksort(arr, 0, len - 1);
-    }
 };
+
+// A simple example
+class Comparable
+{
+public:
+    int x;
+    char a;
+    friend ostream & operator<<( ostream & os,const Comparable & c);
+    friend istream & operator>>( istream & is,Comparable & c);
+};
+istream & operator>>(istream & in,Comparable & c)
+{
+    in >> c.a >> c.x;
+    return in;
+}
+ostream & operator<<(ostream & out,const Comparable & c)
+{
+    out << c.a << ' ' << c.x;
+    return out;
+}
+
 
 
 int main()
@@ -74,10 +78,10 @@ int main()
     int n;
     cin >> n;
     Comparable a[n];
-    Sort com;
+    Sort<Comparable> com;
     for(int i = 0; i < n; i++)
         cin >> a[i];
-    com.sort(a, n);
+    com.quicksort(a, n);
     for(int i = 0; i < n; i++)
         cout << a[i] << ' ';
     return 0;
