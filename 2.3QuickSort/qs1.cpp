@@ -1,4 +1,5 @@
 // 可以套在任何对象上的快速排序（需要自己修改Comparable对象类）
+
 #include<iostream>
 using namespace std;
 
@@ -30,7 +31,7 @@ istream & operator>>( istream & is,Comparable & c)
     return is;
 }
 
-class compare
+class Sort
 {
 public:
     void swap(Comparable arr[], int a, int b)
@@ -73,7 +74,7 @@ int main()
     int n;
     cin >> n;
     Comparable a[n];
-    compare com;
+    Sort com;
     for(int i = 0; i < n; i++)
         cin >> a[i];
     com.sort(a, n);
