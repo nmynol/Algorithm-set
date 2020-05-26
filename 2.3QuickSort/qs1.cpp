@@ -1,3 +1,4 @@
+// 可以套在任何对象上的快速排序（需要自己修改Comparable对象类）
 #include<iostream>
 using namespace std;
 
