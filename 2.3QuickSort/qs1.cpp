@@ -68,22 +68,16 @@ public:
 };
 
 
-
-
 int main()
 {
     int n;
     cin >> n;
     Comparable a[n];
-    for(int i = 0; i < n; i++)
-    {
-        cin >> a[i];
-    }
     compare com;
+    for(int i = 0; i < n; i++)
+        cin >> a[i];
     com.sort(a, n);
     for(int i = 0; i < n; i++)
-    {
         cout << a[i] << ' ';
-    }
     return 0;
 }
