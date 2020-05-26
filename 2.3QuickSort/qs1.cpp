@@ -46,7 +46,7 @@ public:
         while(true)
         {
             while(arr[++i] < v)if(i == hi)break;
-            while(arr[--j] > v)if(j == lo)break;
+            while(arr[--j] > v)if(j == lo)break; // actually "if(j == lo)break" is redundant;
             if(i >= j)break;
             swap(arr, i, j);
         }
