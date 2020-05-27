@@ -26,39 +26,19 @@ public:
         pq[a] = pq[b];
         pq[b] = temp;
     }
+    void swim(int k); 
+    void sink(int k);
 
-    void swim(int k);   // go up
-    void sink(int k);   // go down
-
-    PriorQueue(int maxN) // construct function
+    PriorQueue(int maxN)                            // 构造函数
     {
         pq = new T [maxN + 1];
         N = 0;
     }
-    bool isEmpty() // whether empty or not
-    {
-        return N == 0;
-    }
-    int size() // look for size
-    {
-        return N;
-    }
-    void insert(T v) // insert a new one
-    {
-        pq[++N] = v;
-        swim(N);
-    }
-    T delMax() // take the biggest one out
-    {
-        T max = pq[1];
-        swap(1, N--);
-        // delete &pq[N + 1] ;
-        sink(1);
-        return max;
-    }
+    bool isEmpty();                                 // 是否空
+    int size();                                     // 返回元素个数
+    void insert(T v);                               // 插入新元素
+    T delMax();                                     // 取出最大元素
 };
-
-
 template<class T>
 void PriorQueue<T>::swim(int k)
 {
@@ -80,6 +60,32 @@ void PriorQueue<T>::sink(int k)
         k = j;
     }
 }
+template <class T>
+bool PriorQueue<T>::isEmpty()
+{
+    return N == 0;
+}
+template <class T>
+int PriorQueue<T>::size()
+{
+    return N;
+}
+template <class T>
+void PriorQueue<T>::insert(T v)
+{
+    pq[++N] = v;
+    swim(N);
+}
+template <class T>
+T PriorQueue<T>::delMax()
+{
+    T max = pq[1];
+    swap(1, N--);
+    // delete &pq[N + 1] ;
+    sink(1);
+    return max;
+}
+
 
 class Comparable
 {
