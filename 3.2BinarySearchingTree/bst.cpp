@@ -72,6 +72,9 @@ public:
     Node<Key, Value>* deleteMax(Node<Key, Value>* root);
     void Delete(Key key);                                                   // 删除指定结点
     Node<Key, Value>* Delete(Node<Key, Value>* root, Key key);
+    void search();                                                          // 按顺序打印所有键值
+    void search(Key lo, Key hi);                                            // 按顺序打印指定范围内的键值
+    void search(Node<Key, Value>* root, Key lo, Key hi);
     void xianxu()
     {
         xianxu(root);
@@ -264,7 +267,25 @@ Node<Key, Value>* bst<Key, Value>::Delete(Node<Key, Value>* root, Key key)
     root->N = size(root->left) + size(root->right) + 1;
     return root;
 }
-
+template<class Key, class Value>
+void bst<Key, Value>::search()
+{
+    search(min(), max());
+}
+template<class Key, class Value>
+void bst<Key, Value>::search(Key lo, Key hi)
+{
+    search(root, lo, hi);
+}
+template<class Key, class Value>
+void bst<Key, Value>::search(Node<Key, Value>* root, Key lo, Key hi)
+{
+    if(!root) return ;
+    if(less(lo, root->key)) search(root->left, lo, hi);
+    if((less(lo, root->key) || equal(lo, root->key)) && (more(hi, root->key) || equal(hi, root->key)))
+        cout << root->key << ' ' << root->val << endl;
+    if(more(hi, root->key)) search(root->right, lo, hi);
+}
 int main()
 {
     bst<char, int> tree;
@@ -273,8 +294,8 @@ int main()
     tree.put('g', 1);
     tree.put('c', 1);
     tree.put('e', 1);
-    tree.xianxu();
+    tree.search();
     tree.Delete('b');
-    tree.xianxu();
+    tree.search();
     return 0;
 }
